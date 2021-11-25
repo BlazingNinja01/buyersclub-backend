@@ -1,0 +1,13 @@
+.terraform
+.terraform.lock.hcl
+createAuction-lambda.zip
+getAuction-lambda.zip
+getAuctions-lambda.zip
+placeBid-lambda.zip
+processAuctions-lambda.zip
+uploadAuctionPicture.zip
+terraform.tfstate
+terraform.tfstate.backup
+node_modules
+package-lock.json
+package.json
