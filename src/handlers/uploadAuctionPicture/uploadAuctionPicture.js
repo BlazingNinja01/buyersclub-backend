@@ -2,7 +2,7 @@ const createError = require('http-errors');
 const AWS = require('aws-sdk');
 
 AWS.config.update({
-    region: 'us-east-1',
+    region: '-ap-south-1',
 });
 
 var dynamodb = new AWS.DynamoDB.DocumentClient();
@@ -18,7 +18,7 @@ module.exports.handler = async (event) => {
 
     this.uploadPictureToS3 = async function (key, body) {
         const result = await s3.upload({
-            Bucket: "auctions-media-bucket262",
+            Bucket: "auctions-media-bucket",
             Key: key,
             Body: body,
             ContentEncoding: 'base64',

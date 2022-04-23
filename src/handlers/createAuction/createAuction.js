@@ -1,14 +1,18 @@
 const AWS = require('aws-sdk');
 const { v4: uuid } = require('uuid');
 AWS.config.update({
-  region: 'us-east-1'
+  region: 'ap-south-1'
 });
 var dynamodb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = async (event, context) => {
+
+  //console.log(event);
+  //console.log(event.headers['x-requested-with']);
   const { title } = JSON.parse(event.body);
   const { imageBase64 } = JSON.parse(event.body);
   const { minAmount } = JSON.parse(event.body);
+  const { desc } = JSON.parse(event.body);
   const email = JSON.parse(JSON.stringify(event))["requestContext"]["authorizer"]["email"];
   console.log(email);
 
@@ -28,6 +32,7 @@ module.exports.handler = async (event, context) => {
     seller: email,
     imageBase64: imageBase64,
     minAmount: minAmount,
+    desc: desc,
   };
 
   await dynamodb.put({
@@ -40,4 +45,5 @@ module.exports.handler = async (event, context) => {
     statusCode: 201,
     body: JSON.stringify(auction),
   };
+
 }

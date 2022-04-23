@@ -2,14 +2,13 @@ const AWS = require('aws-sdk');
 const createError = require('http-errors');
 
 AWS.config.update({
-    region: 'us-east-1'
+    region: 'ap-south-1'
 });
 
 var dynamodb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = async (event, context) => {
     let auctions;
-
     try {
         const result = await dynamodb.query({
             TableName: 'auctions-table',

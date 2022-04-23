@@ -3,7 +3,7 @@ const AWS = require('aws-sdk');
 const sqs = new AWS.SQS();
 
 AWS.config.update({
-    region: 'us-east-1'
+    region: 'ap-south-1'
 });
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
@@ -50,12 +50,12 @@ module.exports.handler = async (event, context) => {
         const amount = JSON.parse(JSON.stringify(auction))["highestBid"]["amount"];
         const bidder = JSON.parse(JSON.stringify(auction))["highestBid"]["bidder"];
 
-        console.log(JSON.parse(JSON.stringify(auction))["title"]);
-        console.log(title);
-        console.log(seller);
-        console.log(highestBid);
-        console.log(amount);
-        console.log(bidder);
+        // console.log(JSON.parse(JSON.stringify(auction))["title"]);
+        // console.log(title);
+        // console.log(seller);
+        // console.log(highestBid);
+        // console.log(amount);
+        // console.log(bidder);
 
         if (amount === 0) {
             await sqs.sendMessage({

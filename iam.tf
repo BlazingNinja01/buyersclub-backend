@@ -32,8 +32,12 @@ resource "aws_iam_role_policy" "dynamodb-log-policy" {
         "dynamodb:UpdateItem"
       ],
       "Resource" : [
-        "${aws_dynamodb_table.auctions-table.arn}",
-        "${aws_dynamodb_table.auctions-table.arn}/index/statusAndEndingDate"
+        "arn:aws:dynamodb:ap-south-1:821975360837:table/auctions-table",
+        "arn:aws:dynamodb:ap-south-1:821975360837:table/auctions-table/index/statusAndEndingDate"
+
+
+        //"${aws_dynamodb_table.auctions-table.arn}",
+        //"${aws_dynamodb_table.auctions-table.arn}/index/statusAndEndingDate"
       ]
       }
     ]
