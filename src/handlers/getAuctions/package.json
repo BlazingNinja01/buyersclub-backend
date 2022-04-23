@@ -1,0 +1,15 @@
+{
+  "name": "getauctions",
+  "version": "1.0.0",
+  "description": "",
+  "main": "getAuctions.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "hassan shahid",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1017.0",
+    "http-errors": "^1.8.0"
+  }
+}
