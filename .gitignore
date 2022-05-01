@@ -10,3 +10,10 @@ terraform.tfstate
 terraform.tfstate.backup
 node_modules
 package-lock.json
+createSale-lambda.zip
+getSale-lambda.zip
+getSales-lambda.zip
+paymentGW-lambda.zip
+placeOrder-lambda.zip
+processSale-lambda.zip
+uploadAuctionPicture.zip

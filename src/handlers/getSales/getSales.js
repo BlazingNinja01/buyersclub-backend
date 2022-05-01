@@ -11,7 +11,7 @@ module.exports.handler = async (event, context) => {
     let auctions;
     try {
         const result = await dynamodb.query({
-            TableName: 'auctions-table',
+            TableName: 'buyers-club-table',
             IndexName: 'statusAndEndingDate',
             KeyConditionExpression: '#status = :status',
             ExpressionAttributeValues: {

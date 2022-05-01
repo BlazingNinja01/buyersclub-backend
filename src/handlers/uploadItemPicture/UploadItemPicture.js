@@ -2,23 +2,23 @@ const createError = require('http-errors');
 const AWS = require('aws-sdk');
 
 AWS.config.update({
-    region: '-ap-south-1',
+    region: 'ap-south-1',
 });
 
 var dynamodb = new AWS.DynamoDB.DocumentClient();
 const s3 = new AWS.S3();
 
 module.exports.handler = async (event) => {
-    let auction;
+    let sale;
     const { id } = event.pathParameters;
     const email = JSON.parse(JSON.stringify(event))["requestContext"]["authorizer"]["email"];
-
-    const base64 = event.body.replace(/^data:image\/\w+;base64,/, '');
+    const { base64 } = JSON.parse(event.body);
+    // const base64 = event.body.replace(/^data:image\/\w+;base64,/, '');
     const buffer = Buffer.from(base64, 'base64');
 
     this.uploadPictureToS3 = async function (key, body) {
         const result = await s3.upload({
-            Bucket: "auctions-media-bucket",
+            Bucket: 'buyers-club-bucket',
             Key: key,
             Body: body,
             ContentEncoding: 'base64',
@@ -28,9 +28,9 @@ module.exports.handler = async (event) => {
         return result.Location;
     }
 
-    this.setAuctionPictureUrl = async function (id, pictureUrl) {
+    this.setSalePictureUrl = async function (id, pictureUrl) {
         const result = await dynamodb.update({
-            TableName: 'auctions-table',
+            TableName: 'buyers-club-table',
             Key: { id },
             UpdateExpression: 'set pictureUrl = :pictureUrl, imageBase64 = :imageBase64',
             ExpressionAttributeValues: {
@@ -43,31 +43,31 @@ module.exports.handler = async (event) => {
         return result.Attributes;
     }
 
-    let updatedAuction;
+    let updatedSale;
 
     try {
         const result = await dynamodb.get({
-            TableName: 'auctions-table',
+            TableName: 'buyers-club-table',
             Key: { id },
         }).promise();
 
-        auction = result.Item;
+        sale = result.Item;
 
-        const pictureUrl = await this.uploadPictureToS3(auction.id + '.jpeg', buffer);
-        updatedAuction = await this.setAuctionPictureUrl(auction.id, pictureUrl);
+        const pictureUrl = await this.uploadPictureToS3(sale.id + '.jpeg', buffer);
+        updatedSale = await this.setSalePictureUrl(sale.id, pictureUrl);
     } catch (error) {
         console.error(error);
         throw new createError.InternalServerError(error);
     }
 
-    if (!auction) {
-        throw new createError.NotFound(`Auction with ${id} ID could not be found!`);
-    } else if (auction.seller !== email) {
-        throw new createError.Forbidden('You are not the seller of this auction!');
+    if (!sale) {
+        throw new createError.NotFound(`Order with ${id} ID could not be found!`);
+    } else if (sale.seller !== email) {
+        throw new createError.Forbidden('You are not the seller of this sale!');
     } else {
         return {
             statusCode: 200,
-            body: JSON.stringify(updatedAuction),
+            body: JSON.stringify(updatedSale),
         }
     }
 }

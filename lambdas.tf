@@ -1,149 +1,171 @@
 #zip files
-data "archive_file" "createAuction-lambda-zip" {
+data "archive_file" "createSale-lambda-zip" {
   type        = "zip"
-  source_dir  = "src/handlers/createAuction"
-  output_path = "createAuction-lambda.zip"
+  source_dir  = "src/handlers/createSale"
+  output_path = "createSale-lambda.zip"
 }
 
-data "archive_file" "getAuctions-lambda-zip" {
+data "archive_file" "getSale-lambda-zip" {
   type        = "zip"
-  source_dir  = "src/handlers/getAuctions"
-  output_path = "getAuctions-lambda.zip"
+  source_dir  = "src/handlers/getSale"
+  output_path = "getSale-lambda.zip"
 }
 
-data "archive_file" "getAuction-lambda-zip" {
+data "archive_file" "getSales-lambda-zip" {
   type        = "zip"
-  source_dir  = "src/handlers/getAuction"
-  output_path = "getAuction-lambda.zip"
+  source_dir  = "src/handlers/getSales"
+  output_path = "getSales-lambda.zip"
 }
 
-data "archive_file" "placeBid-lambda-zip" {
+data "archive_file" "paymentGW-lambda-zip" {
   type        = "zip"
-  source_dir  = "src/handlers/placeBid"
-  output_path = "placeBid-lambda.zip"
+  source_dir  = "src/handlers/paymentGW"
+  output_path = "paymentGW-lambda.zip"
 }
 
-data "archive_file" "processAuctions-lambda-zip" {
+data "archive_file" "placeOrder-lambda-zip" {
   type        = "zip"
-  source_dir  = "src/handlers/processAuctions"
-  output_path = "processAuctions-lambda.zip"
+  source_dir  = "src/handlers/placeOrder"
+  output_path = "placeOrder-lambda.zip"
 }
 
-data "archive_file" "uploadAuctionPicture-lambda-zip" {
+data "archive_file" "processSale-lambda-zip" {
   type        = "zip"
-  source_dir  = "src/handlers/uploadAuctionPicture"
-  output_path = "uploadAuctionPicture.zip"
+  source_dir  = "src/handlers/processSale"
+  output_path = "processSale-lambda.zip"
+}
+
+data "archive_file" "uploadItemPicture-lambda-zip" {
+  type        = "zip"
+  source_dir  = "src/handlers/uploadItemPicture"
+  output_path = "uploadItemPicture.zip"
 }
 
 
 #lambda functions
-resource "aws_lambda_function" "createAuction-lambda" {
-  filename         = "createAuction-lambda.zip"
-  function_name    = "createAuction-lambda-function"
-  role             = aws_iam_role.lambda-iam.arn
-  handler          = "createAuction.handler"
-  source_code_hash = data.archive_file.createAuction-lambda-zip.output_base64sha256
+resource "aws_lambda_function" "createSale-lambda" {
+  filename         = "createSale-lambda.zip"
+  function_name    = "createSale-lambda-function"
+  role             = aws_iam_role.buyersclub-lambda-iam.arn
+  handler          = "createSale.handler"
+  source_code_hash = data.archive_file.createSale-lambda-zip.output_base64sha256
   runtime          = "nodejs12.x"
+  layers = ["arn:aws:lambda:ap-south-1:821975360837:layer:buyersclub-package-layer:1"]
 }
 
-resource "aws_lambda_function" "getAuctions-lambda" {
-  filename         = "getAuctions-lambda.zip"
-  function_name    = "getAuctions-lambda-function"
-  role             = aws_iam_role.lambda-iam.arn
-  handler          = "getAuctions.handler"
-  source_code_hash = data.archive_file.getAuctions-lambda-zip.output_base64sha256
+resource "aws_lambda_function" "getSale-lambda" {
+  filename         = "getSale-lambda.zip"
+  function_name    = "getSale-lambda-function"
+  role             = aws_iam_role.buyersclub-lambda-iam.arn
+  handler          = "getSale.handler"
+  source_code_hash = data.archive_file.getSale-lambda-zip.output_base64sha256
   runtime          = "nodejs12.x"
+  layers = ["arn:aws:lambda:ap-south-1:821975360837:layer:buyersclub-package-layer:1"]
 }
 
-resource "aws_lambda_function" "getAuction-lambda" {
-  filename         = "getAuction-lambda.zip"
-  function_name    = "getAuction-lambda-function"
-  role             = aws_iam_role.lambda-iam.arn
-  handler          = "getAuction.handler"
-  source_code_hash = data.archive_file.getAuction-lambda-zip.output_base64sha256
+resource "aws_lambda_function" "getSales-lambda" {
+  filename         = "getSales-lambda.zip"
+  function_name    = "getSales-lambda-function"
+  role             = aws_iam_role.buyersclub-lambda-iam.arn
+  handler          = "getSales.handler"
+  source_code_hash = data.archive_file.getSales-lambda-zip.output_base64sha256
   runtime          = "nodejs12.x"
+  layers = ["arn:aws:lambda:ap-south-1:821975360837:layer:buyersclub-package-layer:1"]
 }
 
-resource "aws_lambda_function" "placeBid-lambda" {
-  filename         = "placeBid-lambda.zip"
-  function_name    = "placeBid-lambda-function"
-  role             = aws_iam_role.lambda-iam.arn
-  handler          = "placeBid.handler"
-  source_code_hash = data.archive_file.placeBid-lambda-zip.output_base64sha256
+resource "aws_lambda_function" "paymentGW-lambda" {
+  filename         = "paymentGW-lambda.zip"
+  function_name    = "paymentGW-lambda-function"
+  role             = aws_iam_role.buyersclub-lambda-iam.arn
+  handler          = "paymentGW.handler"
+  source_code_hash = data.archive_file.paymentGW-lambda-zip.output_base64sha256
   runtime          = "nodejs12.x"
+  layers = ["arn:aws:lambda:ap-south-1:821975360837:layer:buyersclub-package-layer:1"]
 }
 
-resource "aws_lambda_function" "processAuctions-lambda" {
-  filename         = "processAuctions-lambda.zip"
-  function_name    = "processAuctions-lambda-function"
-  role             = aws_iam_role.lambda-iam.arn
-  handler          = "processAuctions.handler"
-  source_code_hash = data.archive_file.processAuctions-lambda-zip.output_base64sha256
+resource "aws_lambda_function" "placeOrder-lambda" {
+  filename         = "placeOrder-lambda.zip"
+  function_name    = "placeOrder-lambda-function"
+  role             = aws_iam_role.buyersclub-lambda-iam.arn
+  handler          = "placeOrder.handler"
+  source_code_hash = data.archive_file.placeOrder-lambda-zip.output_base64sha256
   runtime          = "nodejs12.x"
+  layers = ["arn:aws:lambda:ap-south-1:821975360837:layer:buyersclub-package-layer:1"]
 }
 
-resource "aws_lambda_function" "uploadAuctionPicture-lambda" {
-  filename         = "uploadAuctionPicture.zip"
-  function_name    = "uploadAuctionPicture-lambda-function"
-  role             = aws_iam_role.lambda-iam.arn
-  handler          = "uploadAuctionPicture.handler"
-  source_code_hash = data.archive_file.uploadAuctionPicture-lambda-zip.output_base64sha256
+resource "aws_lambda_function" "processSale-lambda" {
+  filename         = "processSale-lambda.zip"
+  function_name    = "processSale-lambda-function"
+  role             = aws_iam_role.buyersclub-lambda-iam.arn
+  handler          = "processSale.handler"
+  source_code_hash = data.archive_file.processSale-lambda-zip.output_base64sha256
   runtime          = "nodejs12.x"
+  layers = ["arn:aws:lambda:ap-south-1:821975360837:layer:buyersclub-package-layer:1"]
+}
+
+resource "aws_lambda_function" "uploadItemPicture-lambda" {
+  filename         = "uploadItemPicture.zip"
+  function_name    = "uploadItemPicture-lambda-function"
+  role             = aws_iam_role.buyersclub-lambda-iam.arn
+  handler          = "UploadItemPicture.handler"
+  source_code_hash = data.archive_file.uploadItemPicture-lambda-zip.output_base64sha256
+  runtime          = "nodejs12.x"
+  layers = ["arn:aws:lambda:ap-south-1:821975360837:layer:buyersclub-package-layer:1"]
 }
 
 #lambda permissions
-# resource "aws_lambda_permission" "createAuction-api-gw-permissions" {
+# resource "aws_lambda_permission" "createSale-api-gw-permissions" {
 #   statement_id  = "AllowExecutionFromAPIGateway"
 #   action        = "lambda:InvokeFunction"
-#   function_name = aws_lambda_function.createAuction-lambda.arn
+#   function_name = aws_lambda_function.createSale-lambda.arn
 #   principal     = "apigateway.amazonaws.com"
-#   source_arn    = "${aws_apigatewayv2_api.createAuction-api-gw.execution_arn}/*/*/*"
+#   source_arn    = "${aws_apigatewayv2_api.createSale-api-gw.execution_arn}/*/*/*"
 # }
 
-# resource "aws_lambda_permission" "getAuctions-api-gw-permissions" {
+# resource "aws_lambda_permission" "getSales-api-gw-permissions" {
 #   statement_id  = "AllowExecutionFromAPIGateway"
 #   action        = "lambda:InvokeFunction"
-#   function_name = aws_lambda_function.getAuctions-lambda.arn
+#   function_name = aws_lambda_function.getSales-lambda.arn
 #   principal     = "apigateway.amazonaws.com"
-#   source_arn    = "${aws_apigatewayv2_api.getAuctions-api-gw.execution_arn}/*/*/*"
+#   source_arn    = "${aws_apigatewayv2_api.getSales-api-gw.execution_arn}/*/*/*"
 # }
 
-# resource "aws_lambda_permission" "getAuction-api-gw-permissions" {
+# resource "aws_lambda_permission" "getSale-api-gw-permissions" {
 #   statement_id  = "AllowExecutionFromAPIGateway"
 #   action        = "lambda:InvokeFunction"
-#   function_name = aws_lambda_function.getAuction-lambda.arn
+#   function_name = aws_lambda_function.getSale-lambda.arn
 #   principal     = "apigateway.amazonaws.com"
-#   source_arn    = "${aws_apigatewayv2_api.getAuction-api-gw.execution_arn}/*/*/*"
+#   source_arn    = "${aws_apigatewayv2_api.getSale-api-gw.execution_arn}/*/*/*"
 # }
 
-# resource "aws_lambda_permission" "placeBid-api-gw-permissions" {
+# resource "aws_lambda_permission" "placeOrder-api-gw-permissions" {
 #   statement_id  = "AllowExecutionFromAPIGateway"
 #   action        = "lambda:InvokeFunction"
-#   function_name = aws_lambda_function.placeBid-lambda.arn
+#   function_name = aws_lambda_function.placeOrder-lambda.arn
 #   principal     = "apigateway.amazonaws.com"
-#   source_arn    = "${aws_apigatewayv2_api.placeBid-api-gw.execution_arn}/*/*/*"
+#   source_arn    = "${aws_apigatewayv2_api.placeOrder-api-gw.execution_arn}/*/*/*"
 # }
 
 
 
 #lambda, cloudwatch, eventbridge
-resource "aws_cloudwatch_event_rule" "processAuctions-event-rule" {
-  name                = "processAuctions-event-rule"
+resource "aws_cloudwatch_event_rule" "processSale-event-rule" {
+  name                = "processSale-event-rule"
   schedule_expression = "rate(3 minutes)"
 }
 
-resource "aws_cloudwatch_event_target" "processAuctions-event-target" {
-  rule      = aws_cloudwatch_event_rule.processAuctions-event-rule.name
-  target_id = "processAuction-lambda-function"
-  arn       = aws_lambda_function.processAuctions-lambda.arn
+resource "aws_cloudwatch_event_target" "processSale-event-target" {
+  rule      = aws_cloudwatch_event_rule.processSale-event-rule.name
+  target_id = "processSale-lambda-function"
+  arn       = aws_lambda_function.processSale-lambda.arn
 }
 
-resource "aws_lambda_permission" "processAuctions-cloudwatch-permissions" {
+resource "aws_lambda_permission" "processSale-cloudwatch-permissions" {
   statement_id  = "AllowExecutionFromCloudWatch"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.processAuctions-lambda.function_name
+  function_name = aws_lambda_function.processSale-lambda.function_name
   principal     = "events.amazonaws.com"
-  source_arn    = aws_cloudwatch_event_rule.processAuctions-event-rule.arn
+  source_arn    = aws_cloudwatch_event_rule.processSale-event-rule.arn
 }
 
 

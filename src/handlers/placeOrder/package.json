@@ -1,15 +1,16 @@
 {
-  "name": "getauctions",
+  "name": "placeorder",
   "version": "1.0.0",
   "description": "",
-  "main": "getAuctions.js",
+  "main": "placeOrder.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "hassan shahid",
+  "author": "",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.1017.0",
-    "http-errors": "^1.8.0"
+    "aws-sdk": "^2.1120.0",
+    "domain": "0.0.1",
+    "http-errors": "^2.0.0"
   }
 }
